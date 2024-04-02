@@ -12,20 +12,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-        #--> ATTENTION : NE TOUCHEZ PAS A CE STEP
-    - name: Insert commit ID into HTML
-      run: |
-        sed -i "s/data-commit-id=\".*\"/data-commit-id=\"${{ github.sha }}\"/g" index.html
-        # Vérifier que le remplacement a été effectué correctement
-        grep -q "data-commit-id=\"${{ github.sha }}\"" index.html && echo "ID du commit inséré avec succès." || { echo "Erreur : ID du commit non inséré."; exit 1; }
-      env:
-        AWS_BUCKET_NAME: ${{ secrets.AWS_BUCKET_NAME }}
+      - name: Insert commit ID into HTML
+        run: |
+          sed -i "s/data-commit-id=\".*\"/data-commit-id=\"${{ github.sha }}\"/g" index.html
+          # Vérifier que le remplacement a été effectué correctement
+          grep -q "data-commit-id=\"${{ github.sha }}\"" index.html && echo "ID du commit inséré avec succès." || { echo "Erreur : ID du commit non inséré."; exit 1; }
+        env:
+          AWS_BUCKET_NAME: ${{ secrets.AWS_BUCKET_NAME }}
 
-    - name: Install SSH client
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y openssh-client
-
+      - name: Install SSH client
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y openssh-client
 
       - name: Deploy to AWS Lightsail
         run: |
