@@ -25,6 +25,13 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y openssh-client
 
+      - name: Debug AWS Lightsail variables
+        run: |
+          echo "AWS_LIGHTSAIL_USERNAME: ${{ secrets.AWS_LIGHTSAIL_USERNAME }}"
+          echo "AWS_LIGHTSAIL_PUBLIC_IP: ${{ secrets.AWS_LIGHTSAIL_PUBLIC_IP }}"
+          echo "AWS_LIGHTSAIL_TARGET_DIR: ${{ secrets.AWS_LIGHTSAIL_TARGET_DIR }}"
+          echo "AWS_LIGHTSAIL_SSH_KEY: ${{ secrets.AWS_LIGHTSAIL_SSH_KEY }}"
+
       - name: Deploy to AWS Lightsail
         run: |
           echo "${{ secrets.AWS_LIGHTSAIL_SSH_KEY }}" > /tmp/mykey.pem
